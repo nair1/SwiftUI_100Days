@@ -5,7 +5,7 @@
 //you can't use the built in sqrt method
 //throw an out of bounds error if the number is out of bounds
 //only consider integer square roots
-//if you can't find the square root, throw a no root error
+//if you can't find the square root, throw a no root error 
 
 enum SqrtError: Error {
     case lowerBound, upperBound, noRoot
