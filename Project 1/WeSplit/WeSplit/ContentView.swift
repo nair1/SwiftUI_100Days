@@ -18,15 +18,13 @@ struct ContentView: View {
     var totalCheckAmount: Double {
         let tipSelection = Double(tipPercentage)
         let totalTip = checkAmount * tipSelection / 100
-        let totalCheckAmount = checkAmount + totalTip
+        let finalAmount = checkAmount + totalTip
         
-        return totalCheckAmount
+        return finalAmount
     }
     
     var totalPerPerson: Double {
-        let totalPerPerson = totalCheckAmount / Double(numberOfPeople)
-        
-        return totalPerPerson
+        totalCheckAmount / Double(numberOfPeople)
     }
     
     let localizedCurrency = Locale.current.currency?.identifier ?? "USD"
