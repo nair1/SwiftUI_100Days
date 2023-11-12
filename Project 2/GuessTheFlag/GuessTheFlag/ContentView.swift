@@ -14,6 +14,29 @@ struct ContentView: View {
     @State private var showingScore = false
     @State private var scoreTitle = ""
     
+    @State private var currentScore = 0
+    @State private var totalGuesses = 0
+    
+    var scoreAsPercentage: String {
+        var scoreAsPercentage = 0.0
+        
+        if (totalGuesses > 0) {
+            scoreAsPercentage = Double(currentScore) / Double(totalGuesses)
+        }
+        
+        print(currentScore)
+        print(totalGuesses)
+        print(scoreAsPercentage)
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .percent
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 2
+        
+        return numberFormatter
+            .string(from: NSNumber(value: scoreAsPercentage)) ?? ""
+    }
+    
     var upperColor = Color(red: 0.1, green: 0.2, blue: 0.45)
     var lowerColor = Color(red: 0.76, green: 0.15, blue: 0.26)
     
@@ -61,9 +84,12 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
                 
-                Text("Score: ???")
+                Text("Score: \(currentScore)/\(totalGuesses)")
                     .foregroundStyle(.white)
                     .font(.title.bold())
+                Text(scoreAsPercentage)
+                    .foregroundStyle(.white)
+                    .font(.subheadline)
                 
                 Spacer()
             }
@@ -72,21 +98,21 @@ struct ContentView: View {
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your score is ???")
+            Text("Your score is \(currentScore)/\(totalGuesses)")
         }
         
     }
     
     func flagTapped(_ number: Int) {
-        print("Tapped \(number)")
-        
         if number == correctAnswer {
             scoreTitle = "Correct!"
+            currentScore += 1
         } else {
-            scoreTitle = "Wrong"
+            scoreTitle = "Wrong! That's \(countries[number])"
         }
         
         showingScore = true
+        totalGuesses += 1
     }
     
     func askQuestion() {
